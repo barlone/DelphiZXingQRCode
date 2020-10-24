@@ -54,7 +54,7 @@ type
 implementation
 
 uses
-  contnrs, Math, Classes;
+  System.Contnrs, System.Math, System.Classes, System.SysUtils;
 
 type
   TByteArray = array of Byte;
@@ -199,6 +199,7 @@ type
     fOrdinal: Integer;
     function GetBits:Integer;
   public
+    constructor Create(ordinalValue: Integer); reintroduce;
     procedure Assign(Source: TErrorCorrectionLevel);
     property Bits: Integer read GetBits;
   end;

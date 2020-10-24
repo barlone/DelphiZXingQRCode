@@ -29,7 +29,7 @@ type
   private
     QRCodeBitmap: TBitmap;
   public
-    procedure Update;
+    procedure UpdateQRCode;
   end;
 
 var
@@ -41,17 +41,17 @@ implementation
 
 procedure TForm1.cmbEncodingChange(Sender: TObject);
 begin
-  Update;
+  UpdateQRCode;
 end;
 
 procedure TForm1.edtQuietZoneChange(Sender: TObject);
 begin
-  Update;
+  UpdateQRCode;
 end;
 
 procedure TForm1.edtTextChange(Sender: TObject);
 begin
-  Update;
+  UpdateQRCode;
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
@@ -64,7 +64,7 @@ begin
   end;
   cmbEncoding.ItemIndex:=0;
   QRCodeBitmap := TBitmap.Create;
-  Update;
+  UpdateQRCode;
 end;
 
 procedure TForm1.FormDestroy(Sender: TObject);
@@ -91,7 +91,7 @@ begin
   end;
 end;
 
-procedure TForm1.Update;
+procedure TForm1.UpdateQRCode;
 var
   QRCode: TDelphiZXingQRCode;
   Row, Column: Integer;
