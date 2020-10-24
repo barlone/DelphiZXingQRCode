@@ -100,6 +100,7 @@ begin
   try
     QRCode.Data := edtText.Text;
     QRCode.Encoding := TQRCodeEncoding(cmbEncoding.ItemIndex);
+    QRCode.ErrorCorrectionLevel := 3; // ALE 20201024 High error correction level
     QRCode.QuietZone := StrToIntDef(edtQuietZone.Text, 4);
     QRCodeBitmap.SetSize(QRCode.Rows, QRCode.Columns);
     for Row := 0 to QRCode.Rows - 1 do
