@@ -8,7 +8,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, DelphiZXingQRCode, Vcl.ExtCtrls,
-  Vcl.StdCtrls;
+  Vcl.StdCtrls, System.TypInfo;
 
 type
   TForm1 = class(TForm)
@@ -29,7 +29,7 @@ type
   private
     QRCodeBitmap: TBitmap;
   public
-    procedure Update;
+    procedure UpdateQRCode;
   end;
 
 var
@@ -41,23 +41,30 @@ implementation
 
 procedure TForm1.cmbEncodingChange(Sender: TObject);
 begin
-  Update;
+  UpdateQRCode;
 end;
 
 procedure TForm1.edtQuietZoneChange(Sender: TObject);
 begin
-  Update;
+  UpdateQRCode;
 end;
 
 procedure TForm1.edtTextChange(Sender: TObject);
 begin
-  Update;
+  UpdateQRCode;
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
+var
+  CodeEncoding:TQRCodeEncoding;
 begin
+  cmbEncoding.Items.Clear;
+  for CodeEncoding:=Low(TQRCodeEncoding) to High(TQRCodeEncoding) do begin
+    cmbEncoding.Items.Add(GetEnumName(TypeInfo(TQRCodeEncoding),Ord(CodeEncoding)));
+  end;
+  cmbEncoding.ItemIndex:=0;
   QRCodeBitmap := TBitmap.Create;
-  Update;
+  UpdateQRCode;
 end;
 
 procedure TForm1.FormDestroy(Sender: TObject);
@@ -84,7 +91,7 @@ begin
   end;
 end;
 
-procedure TForm1.Update;
+procedure TForm1.UpdateQRCode;
 var
   QRCode: TDelphiZXingQRCode;
   Row, Column: Integer;
@@ -93,6 +100,7 @@ begin
   try
     QRCode.Data := edtText.Text;
     QRCode.Encoding := TQRCodeEncoding(cmbEncoding.ItemIndex);
+    QRCode.ErrorCorrectionLevel := 3; // ALE 20201024 High error correction level
     QRCode.QuietZone := StrToIntDef(edtQuietZone.Text, 4);
     QRCodeBitmap.SetSize(QRCode.Rows, QRCode.Columns);
     for Row := 0 to QRCode.Rows - 1 do

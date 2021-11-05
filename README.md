@@ -1,3 +1,5 @@
+forked from foxitsoftware/DelphiZXingQRCode on 2020-10-24
+
 DelphiZXingQRCode
 =================
 
